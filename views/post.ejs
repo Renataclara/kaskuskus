@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="/topics/posts/<%= data_topic.id%>" method="post" >
+        <input placeholder="Insert Comment" type="text" name="name_post" >
+        <input type="submit" value="Submit">
+    </form>
+
+    You are at TOPIC: <%= data_topic.name_topic%>
+    <br>
+    <table>
+        <tr>
+          <th>Id</th>
+          <th>Comments</th>
+          <th>Actions</th>
+        </tr>
+        <% data_post.forEach(dt =>{%>
+        <tr>
+          <td><%= dt.id %></td>
+          <td><%= dt.name_post %></td>
+          <td>
+            <a href="/topics/posts/<%= data_topic.id%>/edit/<%=dt.id%>">EDIT</a> ||
+            <a href="/topics/posts/<%= data_topic.id%>/delete/<%=dt.id%>">DELETE</a>
+          </td>
+        </tr>
+        <%})%>
+      </table>
+
+  </body>
+</html>

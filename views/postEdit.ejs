@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="/topics/posts/<%=data.TopicId%>/edit/<%=data.id%>" method="post">
+        Edit Comment:<br>
+        <input type="text" name="name_post" value="<%=data.name_post %>">
+        <br><br>
+        <input type="submit" value="Submit">
+      </form>
+  </body>
+</html>

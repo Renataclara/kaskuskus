@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="/topics" method="post" >
+        <input placeholder="New Topic Name" type="text" name="name_topic" >
+        <input type="submit" value="Submit">
+    </form>
+
+    <table>
+        <tr>
+          <th>Id</th>
+          <th>Topic Name</th>
+          <th>Actions</th>
+        </tr>
+        <% data.forEach(dt =>{%>
+        <tr>
+          <td><%= dt.id %></td>
+          <td><%= dt.name_topic %></td>
+          <td>
+            <a href="/topics/edit/<%=dt.id%>">EDIT</a> ||
+            <a href="/topics/delete/<%=dt.id%>">DELETE</a> ||
+            <a href="/topics/posts/<%=dt.id%>">Add Comment</a>
+          </td>
+        </tr>
+        <%})%>
+      </table>
+
+  </body>
+</html>

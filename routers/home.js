@@ -32,7 +32,10 @@ router.post('/', function(req,res){
       let key = hash(row.secret, req.body.password);
       if(row.password == key)
       {
-          req.session.user = {username: req.body.username}
+          req.session.user = {
+            id: row.id,
+            username: req.body.username
+          }
           res.redirect('/topics')
       }else{
           res.redirect('/')
