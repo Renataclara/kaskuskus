@@ -1,0 +1,9 @@
+{
+    "development": {
+      "username": "RenataClaraK",
+      "password": "password",
+      "database": "schooldatabase",
+      "host": "127.0.0.1",
+      "dialect": "postgres"
+  }
+}
