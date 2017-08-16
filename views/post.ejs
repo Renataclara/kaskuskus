@@ -9,22 +9,33 @@
         <input placeholder="Insert Comment" type="text" name="name_post" >
         <input type="submit" value="Submit">
     </form>
-
+    User id dari session:
+    <%= user_id  %>
+    <br>
+    <%= JSON.stringify(data_post) %>
     You are at TOPIC: <%= data_topic.name_topic%>
     <br>
     <table>
         <tr>
           <th>Id</th>
           <th>Comments</th>
-          <th>Actions</th>
+          <th>Made at</th>
+            <th></th>
         </tr>
         <% data_post.forEach(dt =>{%>
         <tr>
           <td><%= dt.id %></td>
           <td><%= dt.name_post %></td>
+          <% if (dt.createdAt == dt.updatedAt) { %>
+            <td><%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %></td>
+          <% } else {%>
+            <td><%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %> Edited</td>
+          <% }%>
           <td>
-            <a href="/topics/posts/<%= data_topic.id%>/edit/<%=dt.id%>">EDIT</a> ||
-            <a href="/topics/posts/<%= data_topic.id%>/delete/<%=dt.id%>">DELETE</a>
+            <% if(user_id == dt.UserId) { %>
+              <a href="/topics/posts/<%= data_topic.id%>/edit/<%=dt.id%>">EDIT</a> ||
+              <a href="/topics/posts/<%= data_topic.id%>/delete/<%=dt.id%>">DELETE</a>
+            <%}%>
           </td>
         </tr>
         <%})%>

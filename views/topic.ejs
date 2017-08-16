@@ -9,20 +9,31 @@
         <input placeholder="New Topic Name" type="text" name="name_topic" >
         <input type="submit" value="Submit">
     </form>
-
+    User id dari session:
+    <%= user_id  %>
+    <br>
+    <%= JSON.stringify(data) %>
     <table>
         <tr>
           <th>Id</th>
           <th>Topic Name</th>
+          <th>Made at</th>
           <th>Actions</th>
         </tr>
         <% data.forEach(dt =>{%>
         <tr>
           <td><%= dt.id %></td>
           <td><%= dt.name_topic %></td>
+          <% if (dt.createdAt == dt.updatedAt) { %>
+            <td><%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %></td>
+          <% } else {%>
+            <td><%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %> Edited</td>
+          <% }%>
           <td>
-            <a href="/topics/edit/<%=dt.id%>">EDIT</a> ||
-            <a href="/topics/delete/<%=dt.id%>">DELETE</a> ||
+            <% if(user_id == dt.UserId) { %>
+              <a href="/topics/edit/<%=dt.id%>">EDIT</a> ||
+              <a href="/topics/delete/<%=dt.id%>">DELETE</a> ||
+            <%}%>
             <a href="/topics/posts/<%=dt.id%>">Add Comment</a>
           </td>
         </tr>
