@@ -20,12 +20,13 @@ app.use(bodyParser.urlencoded({extended : true}));
 const home = require('./routers/home')
 const signup = require('./routers/signup')
 const topic = require('./routers/topic')
+const post = require('./routers/post')
 
 app.use('/', home);
 app.use('/signup', signup);
 
 app.use((req, res, next) => {
-  if (req.session.user) { // undefined
+  if (req.session.user) { 
     next()
   } else {
     res.render('home', {title:'login', msg: 'anda harus login'})
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/topics', topic);
+app.use('/topics/posts', post);
 
 
 

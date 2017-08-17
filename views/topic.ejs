@@ -3,11 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
+  <%- include layouts/bootstrap %>
+  <%- include layouts/navi %>
   </head>
   <body>
     <div class="container">
@@ -16,20 +13,17 @@
           <label for="exampleFormControlInput1">Create New Topic</label>
           <input type="text" name="name_topic" class="form-control" id="exampleFormControlInput1" placeholder="Enter new topic here">
         </div>
-      <input type="submit" value="Submit">
+      <input class="btn btn-primary" type="submit" value="Submit">
       </form>
-      User id dari session:
-      <%= user_id  %>
       <br>
-      <%= JSON.stringify(data) %>
       <div class="list-group">
-        <a class="list-group-item list-group-item-action"> Pick your topic</a>
+        <a class="list-group-item list-group-item-action"> PICK YOU TOPIC</a>
           <% data.forEach(dt =>{%>
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-10">
                 <a href="/topics/posts/<%=dt.id%>" class="list-group-item list-group-item-action list-group-item-primary">
-                  <%= dt.name_topic %> <br>
-                  <% if (dt.createdAt == dt.updatedAt) { %>
+                  <strong> <%= dt.name_topic %> <br> </strong>
+                  <% if (dt.createdAt.toLocaleString() == dt.updatedAt.toLocaleString()) { %>
                     <%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %>
                   <% } else {%>
                     <%= dt.updatedAt.toDateString()+' '+dt.updatedAt.toLocaleTimeString(); %> Edited
@@ -37,11 +31,14 @@
                   by <%= dt.User.username %>
                   </a>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <% if(user_id == dt.UserId) { %>
-                  <div class="list-group-item">
-                    <button class="btn btn-primary" href="/topics/edit/<%=dt.id%>">EDIT</button>
-                    <button class="btn btn-danger" href="/topics/delete/<%=dt.id%>">DELETE</button>
+                  <div class="list-group">
+                    <a href="/topics/edit/<%=dt.id%>">EDIT</a>
+                  </div>
+                  <br>
+                  <div class="list-group">
+                    <a href="/topics/delete/<%=dt.id%>">DELETE </a>
                   </div>
 
                 <%}%>
@@ -49,6 +46,8 @@
             </div>
           <%})%>
       </div>
+
+
     </div>
   </body>
 </html>

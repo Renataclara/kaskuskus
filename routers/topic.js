@@ -46,12 +46,6 @@ router.get('/edit/:id', function(req, res, next){
   }, function (req, res, next) {
       res.render('topicEdit', {data:req.rows});
 });
-// router.get('/edit/:id', function(req, res, next){
-//   model.Topic.findById(req.params.id)
-//     .then( function(rows){
-//       res.render('topicEdit', {data:rows});
-//     })
-// });
 
 router.post('/edit/:id', function(req,res){
   model.Topic.update(
@@ -84,115 +78,6 @@ router.get('/delete/:id', function(req, res, next){
     })
   }
 );
-
-router.get('/posts/:id', function(req,res){
-  model.Topic.findById(req.params.id)
-  .then( function(rows){
-    model.Post.findAll({
-      attributes: ['id', 'TopicId', 'UserId', 'name_post','createdAt', 'updatedAt' ],
-      order: [['createdAt']],
-      include: [
-       { model: model.User}
-      ],
-      where: {TopicId:req.params.id}
-    })
-    .then( function(rows2){
-      // res.send(rows2)
-    res.render('post', {data_topic:rows, data_post:rows2, user_id: req.session.user.id});
-    })
-  })
-})
-
-router.post('/posts/:id', function(req,res){
-  model.Post.create({
-    name_post: req.body.name_post,
-    TopicId: req.params.id,
-    UserId: req.session.user.id,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  })
-  .then( function(){
-    res.redirect(`/topics/posts/${req.params.id}`);
-  })
-})
-
-router.get('/posts/:idtp/edit/:idpt', function(req, res, next){
-  model.Post.findAll({
-    attributes: ['id', 'TopicId', 'UserId', 'name_post' ],
-    where: {id:req.params.idpt}
-  })
-  .then( function(rows){
-      if(rows[0].UserId != req.session.user.id) {
-        res.redirect(`/topics/posts/${req.params.idtp}`)
-      }else{
-        next()
-      }
-    })
-  }, function (req, res, next) {
-      model.Post.findAll
-      ({  attributes:['id', 'TopicId', 'UserId', 'name_post' ],
-          where: {id: req.params.idpt}
-      })
-        .then( function(rows){
-          // res.send(rows);
-          res.render('postEdit', {data:rows[0]});
-        })
-    }
-);
-
-router.post('/posts/:idtp/edit/:idpt', function(req,res){
-  model.Post.update(
-  { name_post: req.body.name_post,
-    updatedAt: new Date()
-  }
-  ,{
-    where: {id: req.params.idpt}
-  });
-  res.redirect(`/topics/posts/${req.params.idtp}`)
-})
-
-// router.get('/posts/:idtp/edit/:idpt', function(req, res, next){
-//   model.Post.findAll({
-//     attributes: ['id', 'TopicId', 'UserId', 'name_post' ],
-//     where: {id:req.params.idpt}
-//   })
-//   .then( function(rows){
-//       if(rows[0].UserId != req.session.user.id) {
-//         res.redirect(`/topics/posts/${req.params.idtp}`)
-//       }else{
-//         next()
-//       }
-//     })
-//   }, function (req, res, next) {
-//       model.Post.findAll
-//       ({  attributes:['id', 'TopicId', 'UserId', 'name_post' ],
-//           where: {id: req.params.idpt}
-//       })
-//         .then( function(rows){
-//           // res.send(rows);
-//           res.render('postEdit', {data:rows[0]});
-//         })
-//     }
-// );
-
-router.get('/posts/:idtp/delete/:idpt', function(req, res, next){
-  model.Post.findAll({
-    attributes: ['id', 'TopicId', 'UserId', 'name_post' ],
-    where: {id:req.params.idpt}
-  })
-  .then( function(rows){
-      if(rows[0].UserId != req.session.user.id) {
-        res.redirect(`/topics/posts/${req.params.idtp}`)
-      }else{
-        next()
-      }
-    })
-  }, function (req, res, next) {
-  model.Post.destroy({where: {id: req.params.idpt}})
-    .then( function(){
-    res.redirect(`/topics/posts/${req.params.idtp}`);
-  })
-});
 
 
 module.exports = router
