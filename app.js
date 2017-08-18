@@ -26,7 +26,7 @@ app.use('/', home);
 app.use('/signup', signup);
 
 app.use((req, res, next) => {
-  if (req.session.user) { 
+  if (req.session.user) {
     next()
   } else {
     res.render('home', {title:'login', msg: 'anda harus login'})
@@ -38,4 +38,4 @@ app.use('/topics/posts', post);
 
 
 
-app.listen(3002);
+app.listen(process.env.PORT || 3002);
